@@ -1,3 +1,11 @@
+<img width="1800" height="1125" alt="4_Public_Tracking_and_Timeline_Screen" src="https://github.com/user-attachments/assets/a3b6b92c-3b48-409f-b589-e6b95ef71a50" />
+<img width="1800" height="1188" alt="3_Grievance_Submission_with_Map_Screen" src="https://github.com/user-attachments/assets/6204fcd4-c6be-4454-bdff-d6423378cc1a" />
+<img width="1800" height="1125" alt="2_Citizen_Dashboard_Screen" src="https://github.com/user-attachments/assets/cdc58371-de79-462f-aa91-69df4df19575" />
+<img width="1800" height="1125" alt="1_Login_and_Registration_Screen" src="https://github.com/user-attachments/assets/1c5ba329-0261-464d-8697-0522ef8cbc7a" />
+<img width="1800" height="1125" alt="8_Analytics_and_CSV_Export_Screen" src="https://github.com/user-attachments/assets/66c88e33-6be0-4f00-920a-5f1d22cd4282" />
+<img width="1800" height="1188" alt="7_Administrator_Rules_and_Simulation_Screen" src="https://github.com/user-attachments/assets/f18b1aae-2575-427a-b0ac-99d5b9160b1e" />
+<img width="1800" height="1125" alt="6_Priority_Explanation_and_Override_Screen" src="https://github.com/user-attachments/assets/b1324b73-53fb-4f82-bb8a-77bfdaef6e0f" />
+<img width="1800" height="1125" alt="5_Officer_Queue_Screen" src="https://github.com/user-attachments/assets/8e24d4af-05ae-43d8-9761-e9a3225b3bc9" />
 # CivicResolve AI
 ### Autonomous & Explainable Grievance Redressal System for Government Services
 *A Final-Year / 7th-Semester Computer Science & Engineering Capstone Project*
