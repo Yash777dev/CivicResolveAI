@@ -1,0 +1,36 @@
+graph TB
+    subgraph ClientLayer["Client Layer (React + Vite + TypeScript)"]
+        CP["Citizen Portal (Submissions & Tracking)"]
+        OP["Officer Workstation (Triage & Workflows)"]
+        AP["Admin Console (Governance & Rules)"]
+    end
+
+    subgraph APILayer["API & Security Layer (Flask REST API)"]
+        GW["API Gateway / Routing (/api/v1)"]
+        JWT["JWT Auth & Role Guard"]
+        ERR["Standardized Error Handler"]
+    end
+
+    subgraph ServiceLayer["Core Domain Services"]
+        PE["Explainable Priority Engine (Deterministic v1.0)"]
+        DD["Duplicate Detection (TF-IDF Cosine)"]
+        WS["Workflow State Machine"]
+        AS["Assignment & Escalation Service"]
+        ST["Safe Evidence Storage (UUID + SHA-256)"]
+        AN["Live Database Analytics"]
+    end
+
+    subgraph DataLayer["Persistence Layer"]
+        DB[("Relational Database (SQLite / PostgreSQL)")]
+        FS["File Storage (storage/uploads)"]
+    end
+
+    CP -->|REST API + Bearer Token| GW
+    OP -->|REST API + Bearer Token| GW
+    AP -->|REST API + Bearer Token| GW
+
+    GW --> JWT
+    JWT --> ServiceLayer
+    ServiceLayer --> DB
+    ST --> FS
+    PE --> DB

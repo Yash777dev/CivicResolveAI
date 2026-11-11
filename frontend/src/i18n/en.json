@@ -1,0 +1,66 @@
+{
+  "app_name": "CivicResolve AI",
+  "app_tagline": "Explainable Autonomous Grievance Redressal System",
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "track": "Track Grievance",
+    "help": "Help & FAQ",
+    "login": "Log In",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "my_cases": "My Grievances",
+    "file_complaint": "File a Grievance",
+    "queue": "Case Queue",
+    "analytics": "Analytics",
+    "departments": "Departments",
+    "admin": "Administration",
+    "rules": "Priority Rules",
+    "users": "User Management",
+    "audit": "Audit Logs",
+    "model": "Model Evaluation",
+    "notifications": "Notifications",
+    "logout": "Log Out"
+  },
+  "hero": {
+    "badge": "Tamil Nadu Municipal Public Grievance Portal",
+    "title": "Transparent, Explainable Public Grievance Redressal",
+    "subtitle": "Submit civil grievances with automated deterministic prioritization, real-time SLA accountability, and transparent rule explanations.",
+    "cta_submit": "File Grievance Now",
+    "cta_track": "Track Existing Status",
+    "features_title": "How CivicResolve AI Functions"
+  },
+  "status": {
+    "SUBMITTED": "Submitted",
+    "TRIAGED": "Triaged",
+    "ASSIGNED": "Assigned",
+    "IN_PROGRESS": "In Progress",
+    "NEEDS_INFORMATION": "Needs Info",
+    "RESOLVED": "Resolved",
+    "CLOSED": "Closed",
+    "REOPENED": "Reopened",
+    "ESCALATED": "Escalated"
+  },
+  "priority": {
+    "HIGH": "High Priority",
+    "MEDIUM": "Medium Priority",
+    "LOW": "Standard Priority"
+  },
+  "form": {
+    "title": "Grievance Title",
+    "title_placeholder": "E.g., Major drinking water pipeline leak near Govt Hospital",
+    "category": "Department & Category",
+    "category_placeholder": "Select an applicable municipal category",
+    "description": "Detailed Description",
+    "description_placeholder": "Please provide factual details of the issue, location landmarks, and community impact...",
+    "location": "Approximate Location",
+    "location_placeholder": "E.g., 4th Cross Road, Ward 12, Anna Nagar",
+    "duration": "Reported Duration",
+    "immediate_danger": "Immediate danger to human life or safety (Sparks, open manhole, collapse hazard)",
+    "essential_facility": "Affects an essential public facility (Hospital, Clinic, School, Water Plant)",
+    "facility_type": "Facility Type",
+    "evidence": "Attach Photographs / Evidence (PNG, JPG, PDF, max 10MB)",
+    "submit_btn": "Submit Grievance",
+    "cancel_btn": "Cancel"
+  }
+}

@@ -1,0 +1,141 @@
+erDiagram
+    USERS ||--o{ COMPLAINTS : "files as citizen"
+    USERS ||--o{ COMPLAINTS : "assigned as officer"
+    USERS ||--o{ COMPLAINT_STATUS_HISTORY : "records transition"
+    USERS ||--o{ PRIORITY_OVERRIDES : "executes override"
+    USERS ||--o{ COMPLAINT_NOTES : "writes note"
+    USERS ||--o{ NOTIFICATIONS : "receives"
+    USERS ||--o{ AUDIT_LOGS : "triggers action"
+
+    DEPARTMENTS ||--o{ CATEGORIES : "contains"
+    DEPARTMENTS ||--o{ COMPLAINTS : "routed to"
+    DEPARTMENTS ||--o{ COMPLAINT_ASSIGNMENT_HISTORY : "historical transfer"
+
+    CATEGORIES ||--o{ COMPLAINTS : "classifies"
+
+    COMPLAINTS ||--o{ COMPLAINT_EVIDENCE : "has attachments"
+    COMPLAINTS ||--o{ PRIORITY_ASSESSMENTS : "evaluated by engine"
+    COMPLAINTS ||--o{ PRIORITY_OVERRIDES : "manual adjustments"
+    COMPLAINTS ||--o{ COMPLAINT_STATUS_HISTORY : "state transitions"
+    COMPLAINTS ||--o{ COMPLAINT_ASSIGNMENT_HISTORY : "reassignment trail"
+    COMPLAINTS ||--o{ COMPLAINT_NOTES : "internal/public notes"
+    COMPLAINTS ||--o{ COMPLAINT_FEEDBACK : "citizen rating"
+    COMPLAINTS ||--o{ NOTIFICATIONS : "generates alerts"
+    COMPLAINTS ||--o{ COMPLAINT_SIMILARITIES : "paired comparison"
+
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string password_hash
+        string role
+        string phone
+        string preferred_language
+        string account_status
+        datetime created_at
+    }
+
+    DEPARTMENTS {
+        int id PK
+        string name
+        string code UK
+        string description
+        boolean is_active
+    }
+
+    CATEGORIES {
+        int id PK
+        int department_id FK
+        string name
+        int sla_hours
+        int baseline_priority
+        boolean is_active
+    }
+
+    COMPLAINTS {
+        int id PK
+        string public_reference UK
+        int citizen_id FK
+        int department_id FK
+        int category_id FK
+        int assigned_officer_id FK
+        string title
+        text description
+        string status
+        string current_priority
+        int priority_score
+        string priority_engine_version
+        string approximate_location
+        float latitude
+        float longitude
+        datetime created_at
+        datetime due_at
+        datetime resolved_at
+        text resolution_summary
+    }
+
+    COMPLAINT_EVIDENCE {
+        int id PK
+        int complaint_id FK
+        string safe_storage_key
+        string sanitized_filename
+        string mime_type
+        int byte_size
+        string checksum
+        int uploaded_by FK
+        datetime created_at
+    }
+
+    PRIORITY_ASSESSMENTS {
+        int id PK
+        int complaint_id FK
+        int score
+        string level
+        string engine_version
+        text fired_rules_json
+        text summary
+        datetime assessed_at
+    }
+
+    PRIORITY_OVERRIDES {
+        int id PK
+        int complaint_id FK
+        int actor_id FK
+        int previous_score
+        string previous_level
+        int new_score
+        string new_level
+        text reason
+        datetime created_at
+    }
+
+    COMPLAINT_STATUS_HISTORY {
+        int id PK
+        int complaint_id FK
+        int actor_id FK
+        string previous_status
+        string new_status
+        text public_note
+        text internal_note
+        datetime created_at
+    }
+
+    COMPLAINT_FEEDBACK {
+        int id PK
+        int complaint_id FK
+        int citizen_id FK
+        int rating
+        text comments
+        datetime created_at
+    }
+
+    AUDIT_LOGS {
+        int id PK
+        int actor_id FK
+        string action
+        string resource_type
+        string resource_id
+        text metadata_json
+        string ip_address
+        datetime timestamp
+    }

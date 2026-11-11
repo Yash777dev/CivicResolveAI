@@ -1,0 +1,35 @@
+stateDiagram-v2
+    [*] --> SUBMITTED: Citizen Submits Complaint
+
+    SUBMITTED --> TRIAGED: Officer Reviews / Auto-Triage
+    SUBMITTED --> ASSIGNED: Direct Officer Assignment
+
+    TRIAGED --> ASSIGNED: Assign to Officer / Department
+    TRIAGED --> NEEDS_INFORMATION: Request Citizen Clarification
+    TRIAGED --> ESCALATED: SLA Overdue / Supervisor Action
+
+    ASSIGNED --> IN_PROGRESS: Officer Starts Investigation
+    ASSIGNED --> NEEDS_INFORMATION: Evidence Insufficient
+    ASSIGNED --> ESCALATED: SLA Breached
+
+    IN_PROGRESS --> RESOLVED: Resolution Summary + Fix Applied
+    IN_PROGRESS --> NEEDS_INFORMATION: Field Details Required
+    IN_PROGRESS --> ESCALATED: Exceeded Max Time Limit
+
+    NEEDS_INFORMATION --> IN_PROGRESS: Citizen Submits Response
+    NEEDS_INFORMATION --> ASSIGNED: Re-queued
+    NEEDS_INFORMATION --> RESOLVED: Resolved after clarifications
+
+    ESCALATED --> IN_PROGRESS: Expedited Investigation
+    ESCALATED --> RESOLVED: Senior Officer Resolution
+
+    RESOLVED --> CLOSED: Citizen Confirms / Auto-Close SLA
+    RESOLVED --> REOPENED: Citizen Dissatisfied / Appeal
+
+    CLOSED --> REOPENED: Grievance Persists
+
+    REOPENED --> TRIAGED: Re-Assessment by Supervisor
+    REOPENED --> ASSIGNED: Assigned for Fresh Investigation
+    REOPENED --> IN_PROGRESS: Immediate Redressal
+
+    CLOSED --> [*]

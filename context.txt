@@ -1,0 +1,524 @@
+================================================================================
+CIVICRESOLVE AI — COMPREHENSIVE PROJECT CONTEXT & TECHNICAL DOSSIER
+Autonomous & Explainable Grievance Redressal System for Government Services
+Final-Year / 7th-Semester Computer Science & Engineering Capstone Project
+================================================================================
+
+1. PROJECT OVERVIEW & METADATA
+--------------------------------------------------------------------------------
+Project Name      : CivicResolve AI — Autonomous Grievance Redressal System
+Academic Level    : Final Year / 7th Semester B.E. / B.Tech Computer Science & Engineering
+System Domain     : Civic Technology / Public Administration / Explainable AI (XAI)
+License           : MIT Open Source License
+Backend Server    : Python 3.11 / Flask 3.1.0 / Flask-SQLAlchemy 3.1.1 / Flask-JWT-Extended
+Frontend Client   : React 19 / TypeScript 5.7 / Vite 6 / Tailwind CSS v4 / Recharts / Leaflet
+Database Engine   : Relational Database (SQLite local development / PostgreSQL 15 production)
+Test Suite        : Pytest 8.3 (22/22 Passing Automated Unit & Integration Tests)
+Repository Root   : c:\Yashwanth\Civic_proj
+
+Executive Summary:
+CivicResolve AI is a production-grade, explainable, role-based municipal grievance
+redressal platform engineered to modernize public service delivery. Traditional municipal
+systems suffer from opaque first-in-first-out triage, duplicate field dispatches,
+and citizen distrust. Existing research proposals that attempt to apply deep neural
+networks suffer from black-box uninterpretability, which cannot be justified in public
+administration. CivicResolve AI solves this through a deterministic, explainable
+priority scoring engine (0-100) where every single score is broken down into
+transparent mathematical contributions (immediate hazards, essential service outages,
+critical facility proximity, prolonged outage duration). Authorized field officers
+retain decision authority via an officer-in-the-loop override mechanism backed by
+mandatory written justification and immutable audit logging.
+
+
+2. PROBLEM STATEMENT & OBJECTIVES
+--------------------------------------------------------------------------------
+Problem Statement:
+Urban local bodies and municipal corporations (e.g. Greater Chennai Corporation, BBMP)
+receive thousands of citizen grievances daily across water supply, sanitation, road
+potholes, electrical hazards, and drainage. Current administrative workflows face:
+1. High Triage Overhead: Manual assessment of grievance urgency is slow and arbitrary.
+2. Opaque Prioritization: Citizens cannot understand why their complaint is delayed
+   while another is resolved.
+3. Redundant Field Dispatches: Lack of duplicate detection leads to multiple field
+   crews sent to the same burst pipe or pothole cluster.
+4. Black-Box AI Risks: Deep learning urgency scores cannot provide legal accountability
+   or transparent reasons to citizens or auditors.
+
+Project Objectives:
+1. Deterministic Explainable Scoring: Build a mathematical priority engine (0-100)
+   with visible fired rules and point additions.
+2. Officer-in-the-Loop Governance: Support manual overrides with mandatory written
+   justification and preserved historical audit trails.
+3. Strict Lifecycle Workflow: Enforce a validated state machine
+   (SUBMITTED -> TRIAGED -> ASSIGNED -> IN_PROGRESS -> RESOLVED -> CLOSED) with SLA tracking.
+4. Duplicate Detection: Detect similar complaints within category and temporal windows
+   using TF-IDF cosine similarity without leaking citizen privacy.
+5. Multilingual Accessibility: Bilingual support for English and Tamil (தமிழ்)
+   preserving Unicode verbatim in database storage, indexing, and display.
+6. Robust Defensive Security: Prevent Insecure Direct Object References (IDOR),
+   neutralize CSV Formula Injection (CWE-1236), and safely sandbox evidence uploads.
+
+
+3. TECHNOLOGY STACK SPECIFICATION
+--------------------------------------------------------------------------------
+Frontend Tier:
+- Framework       : React 19 (SPA Architecture)
+- Build Toolchain : Vite 6 with TypeScript in strict mode
+- Styling Engine  : Tailwind CSS v4 with custom public-service color tokens
+- Icons           : Lucide React (standardized semantic SVG icons, no external CDNs)
+- State Management: TanStack React Query v5 (caching, optimistic mutations, refetching)
+- Form Validation : React Hook Form + Zod
+- Data Visuals    : Recharts (responsive bar, area, pie, and metric trend charts)
+- Geospatial Maps : Leaflet + OpenStreetMap (interactive coordinate pin drop + attribution)
+- Internationalization: Zero-dependency React Context supporting English and Tamil
+
+Backend Tier:
+- Runtime & Engine: Python 3.11 with Flask Application Factory pattern
+- ORM & Migration : Flask-SQLAlchemy 3.1.1 (SQLAlchemy 2.0 core) & Flask-Migrate
+- Authentication  : Flask-JWT-Extended (short-lived access tokens, refresh tokens)
+- Schema Validation: Pydantic v2 schemas validating request/response boundaries
+- Cryptography    : Werkzeug pbkdf2:sha256 salted password hashing, SHA-256 checksums
+- CORS Engine     : Flask-CORS with strict origin allowlist
+- Automated Tests : Pytest 8.3 with in-memory database test fixtures
+
+Machine Learning & AI Pipeline:
+- Priority Engine : Deterministic expert scoring system (versioned rules rubric)
+- Duplicate Engine: Scikit-learn TfidfVectorizer + Cosine Similarity (sparse matrix)
+- Category Model  : TF-IDF + Multinomial Logistic Regression (saved via Joblib)
+- Fallback Engine : High-performance multilingual keyword taxonomy dictionary
+
+
+4. PRE-SEEDED DEMO ACCOUNTS & CREDENTIALS
+--------------------------------------------------------------------------------
+The database is pre-seeded with realistic municipal accounts. The login screen (/login)
+provides an instant one-click credential selector for demonstration:
+
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Role                   | Email                         | Password        | Responsibilities & Access Scope                    |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| System Administrator   | admin@civicresolve.gov        | AdminPass123!   | User & department admin, audit logs, ML analytics, |
+|                        |                               |                 | rule weights configuration & simulation playground |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Water Supply Officer   | water.officer@civicresolve.gov| OfficerPass123! | Water supply & sewerage queue, priority override,   |
+|                        |                               |                 | status updates, evidence review, case resolution   |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Electricity Officer    | power.officer@civicresolve.gov| OfficerPass123! | Electrical & streetlight cases, emergency dispatch |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Supervisor             | supervisor@civicresolve.gov   | SupervisorPass123!| Escalated grievances, cross-department transfers |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Citizen (Anita Sharma) | citizen.anita@example.com     | CitizenPass123! | Submit complaints, track status, view timeline,    |
+|                        |                               |                 | provide feedback, request reopen                  |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Citizen (Murugan K)    | citizen.murugan@example.com   | CitizenPass123! | Tamil-first citizen benchmark account              |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+| Citizen (Priya N)      | citizen.priya@example.com     | CitizenPass123! | Urban resident benchmark account                   |
++------------------------+-------------------------------+-----------------+----------------------------------------------------+
+
+
+5. SYSTEM ARCHITECTURE & COMPONENT TOPOLOGY
+--------------------------------------------------------------------------------
+The system is built on a 3-Tier Layered Architecture:
+
+Tier 1: Client Presentation Layer
+- Citizen Portal: Accessible complaint submission, location pin drop, timeline tracker.
+- Officer Workstation: Searchable queues, explainability breakdown, override controls.
+- Administrator Console: User roles, audit logs, ML evaluation, rule tuning playground.
+- Public Zone: Landing page, supported services, and dual-verified reference tracking.
+
+Tier 2: Security Gateway & Core Domain Services
+- Security Gateway: Strict CORS, JWT verification, Pydantic input sanitization.
+- Explainable Priority Engine (app/services/priority_engine.py): Mathematical scoring.
+- Workflow State Machine (app/policies/transitions.py): Enforced lifecycle states.
+- Duplicate Detection Service (app/services/duplicate_detection.py): Cosine similarity.
+- Category Classifier (app/services/classification_service.py): Keyword & ML model.
+- SLA & Escalation Engine (app/services/sla_service.py): Target calculation & breach flags.
+- Real-Time Analytics Engine (app/services/analytics_service.py): Live DB aggregations.
+- Evidence Storage Service (app/services/storage_service.py): UUID4 + SHA-256 validation.
+
+Tier 3: Persistence Layer
+- Relational Database: Third Normal Form (3NF) relational schema (SQLite / PostgreSQL).
+- Upload File Store: Sandboxed storage under storage/uploads.
+- ML Storage: Serialized model artifacts under backend/models_storage/.
+
+
+6. RELATIONAL DATABASE DESIGN & SCHEMA
+--------------------------------------------------------------------------------
+All tables are fully normalized with explicit foreign keys, indexes, and UTC timestamps:
+
+1. `users`
+   Columns: id (PK), name, email (UNIQUE, indexed), password_hash, role
+   (citizen/officer/supervisor/admin), phone, preferred_language (en/ta),
+   account_status (active/suspended), created_at, updated_at.
+
+2. `departments`
+   Columns: id (PK), name (UNIQUE), code (UNIQUE), description, is_active, created_at.
+   Pre-seeded: Water Supply & Sewerage (WATER), Electricity & Lighting (POWER),
+   Roads & Infrastructure (ROADS), Sanitation & Solid Waste (SANITATION),
+   Drainage & Flood Control (DRAINAGE), Public Health & Safety (HEALTH), Municipal Admin (MUNICIPAL).
+
+3. `categories`
+   Columns: id (PK), department_id (FK), name, description, sla_hours, baseline_priority, is_active.
+   Pre-seeded: Water Supply and Leakage (24h, +10), Electricity and Streetlights (24h, +8),
+   Roads and Potholes (72h, +5), Sanitation and Garbage (48h, +6), Drainage and Flooding (24h, +10),
+   Public Health and Safety (12h, +10), Public Distribution / Ration (48h, +5),
+   Public Transport (48h, +5), Municipal Revenue & Permits (96h, +3), Other / Needs Review (48h, +5).
+
+4. `complaints`
+   Columns: id (PK), public_reference (UNIQUE, indexed), citizen_id (FK), department_id (FK),
+   category_id (FK), assigned_officer_id (FK), title, description (Unicode text),
+   status (SUBMITTED/TRIAGED/ASSIGNED/IN_PROGRESS/NEEDS_INFORMATION/RESOLVED/CLOSED/REOPENED/ESCALATED),
+   current_priority (LOW/MEDIUM/HIGH), priority_score (0-100), priority_engine_version,
+   approximate_location, latitude, longitude, contact_phone, contact_email,
+   created_at, due_at, resolved_at, closure_reason, resolution_summary.
+
+5. `complaint_evidence`
+   Columns: id (PK), complaint_id (FK), safe_storage_key (UUID), sanitized_filename,
+   mime_type, byte_size, checksum (SHA-256), uploaded_by (FK), created_at.
+
+6. `priority_assessments`
+   Columns: id (PK), complaint_id (FK), score, level, engine_version,
+   fired_rules_json (JSON list of fired rules and contributions), summary, assessed_at.
+
+7. `priority_overrides`
+   Columns: id (PK), complaint_id (FK), actor_id (FK), previous_score, previous_level,
+   new_score, new_level, reason (mandatory min 10 chars), created_at.
+
+8. `complaint_status_history`
+   Columns: id (PK), complaint_id (FK), actor_id (FK), previous_status, new_status,
+   public_note, internal_note, created_at.
+
+9. `complaint_assignment_history`
+   Columns: id (PK), complaint_id (FK), actor_id (FK), previous_department_id,
+   new_department_id, previous_officer_id, new_officer_id, reason, created_at.
+
+10. `complaint_notes`
+    Columns: id (PK), complaint_id (FK), author_id (FK), note_type (internal/public), body, created_at.
+
+11. `complaint_feedback`
+    Columns: id (PK), complaint_id (FK), citizen_id (FK), rating (1-5), comments, created_at.
+
+12. `notifications`
+    Columns: id (PK), recipient_id (FK), complaint_id (FK), message, notification_type,
+    is_read, read_at, created_at.
+
+13. `audit_logs`
+    Columns: id (PK), actor_id (FK), action, resource_type, resource_id, metadata_json,
+    ip_address, timestamp.
+
+14. `priority_rules`
+    Columns: id (PK), rule_key (UNIQUE), name, description, signal_type, weight,
+    is_active, rule_metadata_json, version, updated_at.
+
+15. `complaint_similarities`
+    Columns: id (PK), complaint_a_id (FK), complaint_b_id (FK), similarity_score,
+    algorithm_version, is_confirmed_duplicate, created_at.
+
+16. `model_evaluations`
+    Columns: id (PK), model_name, version, algorithm, accuracy, macro_f1,
+    confusion_matrix_json, report_json, evaluated_at.
+
+
+7. EXPLAINABLE PRIORITY ENGINE: MATHEMATICAL RUBRIC & RULES
+--------------------------------------------------------------------------------
+Philosophy:
+In civic governance, decisions must be legally accountable, transparent, and reproducible.
+An uninterpretable neural network urgency percentage cannot explain why a citizen's issue
+was handled before another. The CivicResolve AI engine is 100% deterministic:
+
+Mathematical Model:
+For complaint C, raw priority score is:
+   P_raw = BaseCategoryWeight + SUM(Rule_i_Weight for all fired Rule_i)
+   P_clamped = MIN(100, MAX(0, P_raw))
+
+Priority Tiers:
+- 0 to 39  : LOW (72 to 96 Hours SLA)
+- 40 to 69 : MEDIUM (24 to 48 Hours SLA)
+- 70 to 100: HIGH (4 to 12 Hours SLA - Emergency Dispatches)
+
+Configurable Rule Set & Weights:
+1. IMMEDIATE_DANGER (+30):
+   Fired when text contains emergency signals: "fire", "spark", "explosion", "collapse",
+   "electrocution", "fatal", "hazard", "தீ", "விபத்து" or structured flag.
+2. ESSENTIAL_SERVICE (+20):
+   Fired when potable water supply is cut, electricity transformer down, or major sewer burst.
+3. CRITICAL_FACILITY (+15):
+   Fired when grievance impacts a government hospital, clinic, primary school, or railway hub.
+4. REPEAT_NEIGHBORHOOD (+10):
+   Fired when multiple complaints are registered in the same locality/ward within 7 days.
+5. LONG_DURATION (+10):
+   Fired when outage duration is reported as >= 3 days.
+6. VULNERABLE_IMPACT (+5):
+   Fired when voluntarily disclosed impact on senior citizens, infants, or persons with disabilities.
+7. CATEGORY_BASELINE (+5 to +10):
+   Inherent baseline score assigned from municipal taxonomy.
+
+Safety & Non-Discrimination Guardrails:
+- No Duplicate Point Stacking: A keyword appearing multiple times fires the rule only once.
+- Tone & Literacy Neutrality: No penalty for grammar, spelling, colloquialisms, or lack of photos.
+- Zero Demographical Inferences: Income, religion, caste, and identity are never inferred.
+- Officer Override: Officers can adjust scores with mandatory written justification and immutable logs.
+
+
+8. COMPLAINT WORKFLOW STATE MACHINE
+--------------------------------------------------------------------------------
+Permitted Transitions Graph:
+- SUBMITTED          -> TRIAGED, ASSIGNED
+- TRIAGED            -> ASSIGNED, NEEDS_INFORMATION, ESCALATED
+- ASSIGNED           -> IN_PROGRESS, NEEDS_INFORMATION, ESCALATED
+- IN_PROGRESS        -> RESOLVED, NEEDS_INFORMATION, ESCALATED
+- NEEDS_INFORMATION  -> IN_PROGRESS, ASSIGNED, RESOLVED
+- RESOLVED           -> CLOSED, REOPENED
+- CLOSED             -> REOPENED
+- REOPENED           -> TRIAGED, ASSIGNED, IN_PROGRESS
+- ESCALATED          -> IN_PROGRESS, RESOLVED
+
+Enforcement Rules:
+1. Unauthorized transitions (e.g. SUBMITTED -> RESOLVED directly) raise ValidationError (400).
+2. Moving to RESOLVED strictly requires a mandatory resolution_summary (min 10 characters).
+3. Citizens can request REOPENED if the underlying defect was not properly addressed.
+4. SLA breaches trigger automatic ESCALATED state and notify departmental supervisors.
+5. All transitions record previous_status, new_status, actor_id, timestamp, public note,
+   and internal note in complaint_status_history.
+
+
+9. DUPLICATE DETECTION SERVICE
+--------------------------------------------------------------------------------
+Algorithm & Methodology:
+- Rolling Temporal Window: Examines grievances filed within a 30-day window in the same category.
+- Vectorizer: Scikit-Learn TfidfVectorizer with sublinear term frequency scaling.
+- Similarity Computation: Pairwise cosine similarity matrix.
+- Threshold: Complaints exceeding cosine similarity of 0.65 are flagged as potential duplicates.
+- Privacy Preservation: Duplicate relationships are shown to municipal officers to coordinate
+  field maintenance. Another citizen's personal identification or phone number is NEVER leaked.
+- No Auto-Merging: The system never auto-closes or suppresses potential duplicates; human officers
+  verify and link relationships.
+
+
+10. MULTILINGUAL TAMIL & ENGLISH SUPPORT
+--------------------------------------------------------------------------------
+- Full UI Bilingual Context: Instant toggle between English and Tamil (தமிழ்) in navigation bar.
+- Localization Files: frontend/src/i18n/en.json and frontend/src/i18n/ta.json cover all buttons,
+  status badges, priority indicators, errors, and form fields.
+- Verbatim Unicode Preservation: All PostgreSQL/SQLite database columns use UTF-8 encoding.
+  Tamil complaint text (e.g. "குடிநீர் குழாய் உடைப்பு") is stored, indexed, and retrieved
+  without transliteration distortion or encoding loss.
+- Dual-Language Priority Signals: Priority engine scans both English and Tamil terms
+  (e.g. "spark" / "தீப்பொறி", "hospital" / "மருத்துவமனை", "water cut" / "குடிநீர் இல்லை").
+
+
+11. SECURITY & DEFENSIVE ARCHITECTURE
+--------------------------------------------------------------------------------
+1. Insecure Direct Object Reference (IDOR) Defense:
+   In app/policies/permissions.py, all complaint retrievals check citizen_id == current_user.id
+   if the actor is a citizen. Cross-tenant access is rejected with 403 Forbidden.
+
+2. CSV Formula Injection Defense (CWE-1236):
+   In app/services/analytics_service.py, all exported CSV string fields starting with
+   '=', '+', '-', or '@' are escaped with a leading single quote ('), neutralizing
+   formula execution in Microsoft Excel and LibreOffice Calc.
+
+3. Path Traversal & Safe Evidence Uploads (CWE-22 / CWE-434):
+   - Werkzeug secure_filename strips directory traversal paths (../).
+   - Magic bytes / MIME validation restricts files strictly to image/jpeg, image/png, image/webp.
+   - Files are stored under random UUIDv4 names in a sandboxed storage/uploads folder.
+   - SHA-256 cryptographic checksums are stored in the database for integrity validation.
+
+4. Public Tracking Dual Verification:
+   The public tracking route (/track) requires both the public reference code and the last
+   4 digits of the complainant's phone number or email prefix, completely preventing
+   reference enumeration attacks.
+
+5. Authentication & Passwords:
+   - Passwords hashed with PBKDF2-SHA256 with random salt.
+   - Short-lived JWT access tokens (60 min) with declarative @role_required() route guards.
+
+
+12. REST API SPECIFICATION (/api/v1)
+--------------------------------------------------------------------------------
+Authentication:
+- POST /api/v1/auth/register          : Citizen registration
+- POST /api/v1/auth/login             : User authentication (returns access & refresh JWT)
+- POST /api/v1/auth/refresh           : Refresh expired access token
+- POST /api/v1/auth/logout            : Revoke session token
+- GET  /api/v1/auth/me                : Fetch current user profile
+
+Complaints Core:
+- POST /api/v1/complaints             : Submit new grievance with signals and location
+- GET  /api/v1/complaints             : List grievances (paginated, filtered by status/priority/dept)
+- GET  /api/v1/complaints/:id         : Get full case details (IDOR protected)
+- GET  /api/v1/complaints/track/:ref  : Public tracking with verification query param
+- POST /api/v1/complaints/:id/evidence: Upload image attachment (JPEG/PNG, max 5MB)
+- DELETE /api/v1/complaints/:id/evidence/:eid: Delete uploaded attachment
+
+Workflow & Officer Actions:
+- POST /api/v1/complaints/:id/status  : State transition (requires resolution summary for RESOLVED)
+- POST /api/v1/complaints/:id/override-priority : Officer priority override (requires mandatory reason)
+- POST /api/v1/complaints/:id/assign  : Reassign case to another department or officer
+- POST /api/v1/complaints/:id/notes   : Add internal or public operational note
+- POST /api/v1/complaints/:id/reassess: Trigger priority engine recalculation
+- POST /api/v1/complaints/:id/feedback: Citizen resolution rating (1-5) and feedback
+- POST /api/v1/complaints/:id/request-reopen: Citizen appeal / reopen request
+
+Analytics & Governance:
+- GET  /api/v1/analytics/summary      : Live operational summary (total, resolution rate, median SLA)
+- GET  /api/v1/analytics/trends       : Time-series complaint influx and resolution trends
+- GET  /api/v1/analytics/export       : Export sanitized CSV report with formula injection defense
+- GET  /api/v1/admin/model-evaluation : Category ML classifier performance metrics & confusion matrix
+- GET  /api/v1/admin/audit-logs       : Paginated immutable system audit log trail
+- CRUD /api/v1/admin/priority-rules   : Priority engine rule weights management
+- CRUD /api/v1/admin/departments      : Department master records
+- CRUD /api/v1/admin/categories       : Category taxonomy and baseline SLA records
+- GET  /api/v1/health                 : Health check endpoint (database connectivity and version)
+
+
+13. FRONTEND ARCHITECTURE & APPLICATION ROUTES
+--------------------------------------------------------------------------------
+Public Routes:
+- `/`                  : CivicResolve AI landing page, service highlights, process overview.
+- `/services`          : Municipal categories catalogue and citizen filing guidance.
+- `/track`             : Public tracking portal with dual-verification check.
+- `/help`              : Citizen FAQ, grievance process guidelines, emergency hotlines.
+- `/login`             : Unified authentication with one-click demo credentials picker.
+- `/register`          : Citizen self-registration with language selection.
+
+Citizen Portal (Role Guard: `citizen`):
+- `/citizen/dashboard`        : Summary counters, recent cases, status badges, quick actions.
+- `/citizen/complaints/new`   : Grievance submission, AI category suggestion, Leaflet map pin.
+- `/citizen/complaints/:id`   : Detailed case timeline, fired rules explanation, uploaded evidence.
+- `/citizen/profile`          : Citizen profile details and preferred language switcher.
+- `/citizen/notifications`    : In-app alerts for status updates and officer notes.
+- `/citizen/feedback/:id`     : Resolution rating and feedback submission.
+
+Officer Workstation (Role Guard: `officer`, `supervisor`):
+- `/officer/dashboard`        : Live queue metrics, emergency-flagged cases, approaching SLAs.
+- `/officer/complaints`       : Searchable, filterable queue (by status, department, priority).
+- `/officer/complaints/:id`   : Complete case workstation, explainability panel, override modal,
+                                workflow status update form, duplicate suggestion viewer.
+- `/officer/analytics`        : Aggregated charts (Recharts) and sanitized CSV report download.
+- `/officer/department`       : Departmental roster and case re-assignment.
+
+Administrator Console (Role Guard: `admin`):
+- `/admin/dashboard`          : City-wide operational metrics, department workloads.
+- `/admin/users`              : User roster management and role assignments.
+- `/admin/departments`        : Department and category taxonomy configuration.
+- `/admin/rules`              : Priority rule weights management & Live Simulation Playground.
+- `/admin/audit-logs`         : Tamper-evident security audit trail with actor/action filters.
+- `/admin/model-evaluation`   : ML classifier accuracy, macro-F1, and confusion matrix.
+- `/admin/settings`           : Application-wide SLA targets and retention settings.
+
+
+14. AUTOMATED TEST SUITE (PYTEST MATRIX)
+--------------------------------------------------------------------------------
+22 automated tests located in backend/tests/ executed against an in-memory SQLite fixture:
+
+1.  `test_auth.py::test_register_success`                        : Citizen registration verification
+2.  `test_auth.py::test_login_invalid_password`                  : 401 Unauthorized password check
+3.  `test_auth.py::test_get_me_authorized`                       : JWT bearer token validation
+4.  `test_auth.py::test_get_me_unauthorized`                     : 401 Unauthorized on missing token
+5.  `test_permissions.py::test_citizen_cannot_view_other_citizen_case`: IDOR prevention check (403)
+6.  `test_permissions.py::test_citizen_cannot_access_admin_endpoints` : Role guard protection check (403)
+7.  `test_complaints.py::test_create_complaint`                  : Submission, ref code, score check
+8.  `test_complaints.py::test_track_complaint_public`            : Dual-verification public tracking
+9.  `test_priority_engine.py::test_priority_engine_baseline`     : Deterministic baseline scoring
+10. `test_priority_engine.py::test_priority_engine_emergency_and_facility`: +30 hazard & +15 facility
+11. `test_priority_engine.py::test_priority_engine_score_clamping`: Clamping bounds [0, 100]
+12. `test_priority_engine.py::test_priority_engine_duplicate_keywords_no_double_counting`: No duplicate weight
+13. `test_workflow.py::test_workflow_transitions`                : State machine transition graph
+14. `test_assignments.py::test_officer_assignment_and_override` : Department transfer & priority override
+15. `test_sla.py::test_sla_due_date_calculation`                 : Category baseline due date check
+16. `test_sla.py::test_sla_status_within_and_overdue`            : SLA overdue calculation
+17. `test_uploads.py::test_evidence_upload_and_delete`           : UUID file sandboxing & SHA-256
+18. `test_analytics.py::test_analytics_summary`                  : Live DB metric calculations
+19. `test_analytics.py::test_analytics_csv_export`               : CSV formula injection defense
+20. `test_api_validation.py::test_empty_complaint_payload_fails` : Pydantic empty payload validation
+21. `test_api_validation.py::test_short_description_fails`       : Min 10 characters description check
+22. `test_api_validation.py::test_invalid_category_fails`        : Non-existent category check (404)
+
+All 22 tests pass with exit code 0.
+
+
+15. QUICKSTART & INSTALLATION COMMANDS
+--------------------------------------------------------------------------------
+Prerequisites: Python 3.11/3.12, Node.js v18/v20/v22, Git.
+
+Recommended One-Command Launch:
+   python civic.py
+   --> Starts both Flask backend (port 5000) and Vite frontend (port 5173).
+   --> Auto-seeds database and auto-trains ML classifier if missing.
+   --> Opens browser to http://localhost:5173 automatically.
+   --> Press Ctrl+C in terminal to stop both servers gracefully.
+
+Manual Setup (Two Terminals):
+   Terminal 1 (Backend):
+     backend\venv\Scripts\activate
+     python backend/scripts/seed_demo.py
+     python backend/wsgi.py
+   Terminal 2 (Frontend):
+     cd frontend && npm run dev
+
+Run Automated Tests:
+   python civic.py --test
+   # or: backend\venv\Scripts\pytest backend/tests -v
+
+
+16. COMPREHENSIVE VIVA VOCE QUESTIONS & DEFENSE ANSWERS
+--------------------------------------------------------------------------------
+Q1: Why use a deterministic rule engine instead of a deep neural network (BERT/GPT) for priority?
+A1: In public administration and administrative law, grievance decisions must be transparent,
+    auditable, and legally defensible. A black-box deep neural network cannot explain why
+    a specific complaint received an urgency score of 87% or be audited by an oversight committee.
+    Our deterministic rule engine guarantees identical scores for identical inputs, breaks down
+    each point contribution visibly, and allows municipal administrators to adjust rule weights.
+
+Q2: How does the system handle keyword manipulation / spamming?
+A2: The engine uses set-based deduplication (seen_rules). If an emergency keyword like "fire" or
+    "spark" appears 5 times in the narrative, the rule triggers only once (+30 points).
+    Furthermore, priority scores serve as advisory recommendations to human officers who verify
+    claims against photographic evidence and override unwarranted scores with mandatory logs.
+
+Q3: How do you prevent Insecure Direct Object References (IDOR)?
+A3: In backend/app/policies/permissions.py, every complaint retrieval and update asserts that if
+    the user has role 'citizen', complaint.citizen_id MUST equal current_user.id. Tampering with
+    integer IDs in the URL returns 403 Forbidden and logs the security violation.
+
+Q4: What is CSV Formula Injection and how is it mitigated?
+A4: CSV Formula Injection (CWE-1236) occurs when an attacker inputs a cell starting with =, +, -,
+    or @ (e.g. =cmd|' /C calc'!A0). When exported to Excel, arbitrary commands can execute.
+    In app/services/analytics_service.py, all exported string values are inspected; if they begin
+    with formula triggers, an apostrophe (') is prepended, neutralizing spreadsheet execution.
+
+Q5: What happens if the ML classifier model file is missing?
+A5: The system implements graceful architectural degradation. If the joblib model artifact is
+    absent, the category classification service falls back to the deterministic keyword taxonomy
+    dictionary without crashing, clearly displaying "Rule-based category suggestion".
+
+Q6: How is citizen privacy preserved during Duplicate Detection?
+A6: Duplicate suggestions (calculated via TF-IDF cosine similarity > 0.65) are accessible only to
+    authorized municipal officers in their case workspace. Complainants never see another citizen's
+    name, contact information, or personal text. The system never auto-merges or auto-closes cases.
+
+Q7: How is multilingual accessibility achieved in Tamil and English?
+A7: PostgreSQL / SQLite database tables use UTF-8 character encoding, ensuring Tamil Unicode
+    characters (e.g. "குடிநீர் குழாய் உடைப்பு") are stored, indexed, and retrieved verbatim.
+    The frontend provides an instant language toggle backed by en.json and ta.json dictionaries,
+    and the priority engine maintains dual English-Tamil civic vocabulary dictionaries.
+
+
+17. LIMITATIONS & FUTURE ENHANCEMENTS
+--------------------------------------------------------------------------------
+Current Limitations:
+1. Rule weights are currently configured through heuristic administrative guidelines rather
+   than longitudinal statistical optimization.
+2. Coordinate pin-drop requires device internet connectivity to fetch OpenStreetMap tiles.
+
+Future Enhancements:
+1. WhatsApp & SMS Chatbot Bridge: Open-source webhook adapters allowing citizens without
+   smartphones to register complaints and receive status updates via text messages.
+2. Satellite & GIS Raster Overlays: Integration of municipal GIS shapefiles for real-time
+   flood inundation and drainage basin mapping.
+3. Offline-First Mobile PWA: Background synchronization for municipal field inspectors
+   working in low-connectivity rural wards.
+
+================================================================================
+END OF CIVICRESOLVE AI TECHNICAL DOSSIER & CONTEXT FILE
+================================================================================

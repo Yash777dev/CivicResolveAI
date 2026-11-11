@@ -1,0 +1,122 @@
+{
+  "version": "1.0.0",
+  "departments": [
+    {
+      "code": "WATER_DEPT",
+      "name": "Water Resources & Supply Board",
+      "description": "Responsible for municipal drinking water supply, pipeline maintenance, leakages, and water meter operations."
+    },
+    {
+      "code": "POWER_DEPT",
+      "name": "Electricity Distribution Corporation",
+      "description": "Oversees grid reliability, power outages, damaged transformers, live wires, and street lighting."
+    },
+    {
+      "code": "WORKS_DEPT",
+      "name": "Public Works & Road Infrastructure",
+      "description": "Maintains public roads, bridges, potholes, footpaths, signals, and civic constructions."
+    },
+    {
+      "code": "SAN_DEPT",
+      "name": "Municipal Sanitation & Waste Management",
+      "description": "Handles daily garbage collection, overflowing dumps, hazardous waste, and public hygiene."
+    },
+    {
+      "code": "HEALTH_DEPT",
+      "name": "Public Health & Safety Department",
+      "description": "Monitors vector control, water contamination, disease outbreaks, and food safety inspections."
+    },
+    {
+      "code": "PDS_DEPT",
+      "name": "Civil Supplies & Consumer Affairs",
+      "description": "Manages fair price shops, ration card issues, grain quality, and distribution grievances."
+    },
+    {
+      "code": "CIVIC_DEPT",
+      "name": "General Municipal Administration",
+      "description": "Coordinates cross-departmental civic services, drainage, transport coordination, and manual triage."
+    }
+  ],
+  "categories": [
+    {
+      "name": "Water Supply and Leakage",
+      "code": "WATER_SUPPLY",
+      "department_code": "WATER_DEPT",
+      "description": "Pipeline leaks, no drinking water supply, contaminated tap water, or low pressure.",
+      "default_sla_hours": 48,
+      "keywords": ["water", "leak", "pipeline", "tap", "drinking water", "pipe burst", "no water", "குடிநீர்", "கசிவு", "குழாய்", "தண்ணீர்"]
+    },
+    {
+      "name": "Electricity and Streetlights",
+      "code": "ELEC_STREETLIGHTS",
+      "department_code": "POWER_DEPT",
+      "description": "Power outages, blown transformers, flickering/broken streetlights, hanging or sparking wires.",
+      "default_sla_hours": 24,
+      "keywords": ["electric", "power outage", "transformer", "spark", "live wire", "streetlight", "blackout", "மின்சாரம்", "தெருவிளக்கு", "மின்கம்பி", "மின்தடை"]
+    },
+    {
+      "name": "Roads, Potholes and Public Infrastructure",
+      "code": "ROADS_INFRA",
+      "department_code": "WORKS_DEPT",
+      "description": "Potholes, broken roads, damaged pavements, hazardous road cave-ins, and unfinished construction.",
+      "default_sla_hours": 72,
+      "keywords": ["road", "pothole", "pavement", "footpath", "tar", "cave-in", "crater", "சாலை", "குழி", "நடைபாதை", "சாலை விபத்து"]
+    },
+    {
+      "name": "Sanitation and Garbage",
+      "code": "SANITATION_GARBAGE",
+      "department_code": "SAN_DEPT",
+      "description": "Uncollected trash heaps, overflowing public dumpsters, dead animals, and illegal dumping.",
+      "default_sla_hours": 24,
+      "keywords": ["garbage", "trash", "waste", "dumpster", "litter", "stench", "rot", "குப்பை", "தூய்மை", "துர்நாற்றம்", "கழிவு"]
+    },
+    {
+      "name": "Drainage and Flooding",
+      "code": "DRAINAGE_FLOODING",
+      "department_code": "CIVIC_DEPT",
+      "description": "Blocked storm drains, open manholes, sewage overflows onto streets, and waterlogging.",
+      "default_sla_hours": 36,
+      "keywords": ["drain", "drainage", "sewage", "manhole", "flood", "waterlogging", "gutter", "வடிகால்", "சாக்கடை", "வெள்ளம்", "கழிவுநீர்"]
+    },
+    {
+      "name": "Public Health and Safety",
+      "code": "PUBLIC_HEALTH",
+      "department_code": "HEALTH_DEPT",
+      "description": "Mosquito breeding, stagnant contaminated pools, stray animal bites, food poisoning risks.",
+      "default_sla_hours": 24,
+      "keywords": ["health", "mosquito", "dengue", "disease", "poison", "hospital", "contamination", "சுகாதாரம்", "கொசு", "நோய்", "மருத்துவமனை"]
+    },
+    {
+      "name": "Public Distribution System / Ration Services",
+      "code": "PDS_RATION",
+      "department_code": "PDS_DEPT",
+      "description": "Ration shop irregularities, biometric failure, denied quota, poor grain quality, or closure during working hours.",
+      "default_sla_hours": 72,
+      "keywords": ["ration", "pds", "rice", "wheat", "shop", "dealer", "fair price", "ரேஷன்", "அரிசி", "உணவுப்பொருள்", "நியாயவிலைக்கடை"]
+    },
+    {
+      "name": "Public Transport",
+      "code": "PUBLIC_TRANSPORT",
+      "department_code": "CIVIC_DEPT",
+      "description": "Bus frequency delays, broken bus shelters, reckless driving, or route cancellation.",
+      "default_sla_hours": 96,
+      "keywords": ["bus", "transport", "bus stand", "depot", "route", "conductor", "பேருந்து", "போக்குவரத்து", "பேருந்து நிறுத்தம்"]
+    },
+    {
+      "name": "Municipal Services",
+      "code": "MUNICIPAL_SERVICES",
+      "department_code": "CIVIC_DEPT",
+      "description": "Trade licenses, birth/death certificate delays, property tax assessment issues, encroachment.",
+      "default_sla_hours": 120,
+      "keywords": ["certificate", "license", "tax", "municipal", "encroachment", "office", "சான்றிதழ்", "வரி", "நகராட்சி"]
+    },
+    {
+      "name": "Other / Needs Review",
+      "code": "OTHER_REVIEW",
+      "department_code": "CIVIC_DEPT",
+      "description": "Unclassified grievances requiring manual triage by administrative officers.",
+      "default_sla_hours": 48,
+      "keywords": ["other", "general", "inquiry", "help", "வேறு", "பொது"]
+    }
+  ]
+}
